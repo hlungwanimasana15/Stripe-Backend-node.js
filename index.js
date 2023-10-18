@@ -1,8 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors')
-const Stripe=require('stripe');
-const stripe =Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe =require('stripe')(process.env.STRIPE_SECRET_KEY)
 const app = express();
 const PORT = 8080;
 
@@ -14,13 +13,13 @@ app.post('/pay', async (req,res) =>{
         const {name} = req.body;
         if(!name) return res.status(400).json({message: "Please enter a name "});
             const paymentIntent = await stripe.paymentIntents.create({
-                amount:Math.round(25 * 100),
-                currency: 'ZAR',
+                amount:1000,
+                currency: 'zar',
                 payment_method_types:["card"],
                 matadata:{name}
             });
-            const clientSecret =paymentIntent.client_secret;
-            res.json({message:'payment initiatedr', clientSecret})
+            const clientSecret = paymentIntent.client_secret;
+            res.json({message:'payment initiateded', clientSecret})
     } catch (error) {
         console.log(error)
         res.status(500).json({message:'internal server error'})
