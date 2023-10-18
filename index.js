@@ -15,7 +15,7 @@ app.post('/pay', async (req,res) =>{
             const paymentIntent = await stripe.paymentIntents.create({
                 amount:1000,
                 currency: 'zar',
-                automatic_payment_methods:{enable:true},
+                automatic_payment_methods:{enabled:true},
             });
             const clientSecret = paymentIntent.client_secret;
             res.json({message:'payment initiateded', clientSecret})
